@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource>
+    <name>WebSphere MQ Connection</name>
+    <resourceType>plugin.bwmq.ConnectionResource</resourceType>
+    <config>
+        <version>7.7.0</version>
+        <qmanagerbindingmode>remote</qmanagerbindingmode>
+        <host>cafe.na.tibco.com</host>
+        <qmanagerport>6469</qmanagerport>
+        <qmanager/>
+        <pooled>false</pooled>
+        <qmanageractive>9</qmanageractive>
+        <qmanagerunused>3</qmanagerunused>
+        <qmanagertimeout>100</qmanagertimeout>
+        <tls>false</tls>
+        <keyorident>Keystore</keyorident>
+        <hdrcomp>false</hdrcomp>
+        <msgcomp>msgcomp_none</msgcomp>
+        <noverifypooledconnection>false</noverifypooledconnection>
+        <serverchannel>SVRCONN</serverchannel>
+        <userid>WWU</userid>
+    </config>
+</BWSharedResource>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+    <pd:name>Processes/ImsReqReply.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>1214</pd:endX>
+    <pd:endY>76</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1575397026258</pd:targetNamespace>
+    <pd:activity name="WebSphere MQ Put Activity">
+        <pd:type>com.tibco.plugin.bwmq.MqPutActivity</pd:type>
+        <pd:resourceType>plugin.bwmq.MqPutActivity</pd:resourceType>
+        <pd:x>632</pd:x>
+        <pd:y>95</pd:y>
+        <config>
+            <version>7.7.0</version>
+            <contentType>Binary</contentType>
+            <desttype>QUEUE</desttype>
+            <dynamic>false</dynamic>
+            <lastSegment>false</lastSegment>
+            <persistence>Persist as queue def</persistence>
+            <messagetype>MQMT_REQUEST</messagetype>
+            <expiration>0</expiration>
+            <priority>0</priority>
+            <reportCoaOptions>None</reportCoaOptions>
+            <reportCodOptions>None</reportCodOptions>
+            <reportExceptionOptions>None</reportExceptionOptions>
+            <reportExpiryOptions>None</reportExpiryOptions>
+            <multiMessage>None</multiMessage>
+            <segmentedMaxSize>0</segmentedMaxSize>
+            <asyncPut>false</asyncPut>
+            <passContext>default</passContext>
+            <clusterloadbalance>false</clusterloadbalance>
+            <poolacitivity>false</poolacitivity>
+            <segmentation>None</segmentation>
+            <connectionresource>/Connections/WebSphere MQ Connection.mqcon</connectionresource>
+            <destination>IMS.BRIDGE.INPUT</destination>
+            <replytodestination>IMS.BRIDGE.OUTPUT</replytodestination>
+            <gencorrid>true</gencorrid>
+            <dynamicreply>true</dynamicreply>
+            <dynamictemplatequeue>SYSTEM.DEFAULT.MODEL.QUEUE</dynamictemplatequeue>
+        </config>
+        <pd:inputBindings>
+            <InteractionInput>
+                <mqproperties>
+                    <alternateUserId>
+                        <xsl:value-of select="&quot;WWU&quot;"/>
+                    </alternateUserId>
+                    <format>
+                        <xsl:value-of select="&quot;MQIMS&quot;"/>
+                    </format>
+                </mqproperties>
+                <bytes>
+                    <xsl:value-of select="$Render-Copybook-Data/Output/bytes"/>
+                </bytes>
+            </InteractionInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render Copybook Data">
+        <pd:type>com.tibco.plugin.cobol.CCBRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.CCBRenderActivity</pd:resourceType>
+        <pd:x>379</pd:x>
+        <pd:y>74</pd:y>
+        <config>
+            <encoding>Cp1047</encoding>
+            <encodingDisp1>Cp1047</encodingDisp1>
+            <bigEndian>true</bigEndian>
+            <multipleRecords>false</multipleRecords>
+            <delimiter>None</delimiter>
+            <fillerChars>Space</fillerChars>
+            <truncate>true</truncate>
+            <renderMissingNum>typeDefaults</renderMissingNum>
+            <asciiZonedFormat>strict</asciiZonedFormat>
+            <renderAs>bytes</renderAs>
+            <ae.palette.cobolpalette.sharedProperties.copybook>/CopyBooks/MQPlusPayload.cpy</ae.palette.cobolpalette.sharedProperties.copybook>
+            <ibmiSignNibbles>false</ibmiSignNibbles>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <CopybookSchema>
+                    <MQIIH>
+                        <MQIIH-STRUCID>
+                            <xsl:value-of select="&quot;IIH &quot;"/>
+                        </MQIIH-STRUCID>
+                        <MQIIH-VERSION>
+                            <xsl:value-of select="1"/>
+                        </MQIIH-VERSION>
+                        <MQIIH-STRUCLENGTH>
+                            <xsl:value-of select="84"/>
+                        </MQIIH-STRUCLENGTH>
+                        <MQIIH-ENCODING>
+                            <xsl:value-of select="785"/>
+                        </MQIIH-ENCODING>
+                        <MQIIH-FORMAT>
+                            <xsl:value-of select="&quot;MQIMSVS&quot;"/>
+                        </MQIIH-FORMAT>
+                        <MQIIH-FLAGS>
+                            <xsl:value-of select="0"/>
+                        </MQIIH-FLAGS>
+                        <MQIIH-REPLYTOFORMAT>
+                            <xsl:value-of select="&quot;MQIMSVS&quot;"/>
+                        </MQIIH-REPLYTOFORMAT>
+                        <MQIIH-TRANSTATE>
+                            <xsl:value-of select="&quot;?&quot;"/>
+                        </MQIIH-TRANSTATE>
+                        <MQIIH-COMMITMODE>
+                            <xsl:value-of select="&quot;1&quot;"/>
+                        </MQIIH-COMMITMODE>
+                        <MQIIH-SECURITYSCOPE>
+                            <xsl:value-of select="&quot;C&quot;"/>
+                        </MQIIH-SECURITYSCOPE>
+                    </MQIIH>
+                    <LLZZ>
+                        <LL>
+                            <xsl:value-of select="320"/>
+                        </LL>
+                        <TIBIMS-TRANCODE>
+                            <xsl:value-of select="&quot;SXICITO1&quot;"/>
+                        </TIBIMS-TRANCODE>
+                    </LLZZ>
+                    <WS-IVP-FIELDS>
+                        <IVP-ID>
+                            <xsl:value-of select="&quot;Test BW&quot;"/>
+                        </IVP-ID>
+                        <IVP-DESCR>
+                            <xsl:value-of select="&quot;ivp description&quot;"/>
+                        </IVP-DESCR>
+                        <IVP-RESULT>
+                            <xsl:value-of select="&quot;BW Input&quot;"/>
+                        </IVP-RESULT>
+                        <IVP-BES-NAME>
+                            <xsl:value-of select="&quot;bes name&quot;"/>
+                        </IVP-BES-NAME>
+                        <IVP-BES-TRAN-ID>
+                            <xsl:value-of select="&quot;t&quot;"/>
+                        </IVP-BES-TRAN-ID>
+                        <IVP-BES-PGM-NAME>
+                            <xsl:value-of select="&quot;sxioxx&quot;"/>
+                        </IVP-BES-PGM-NAME>
+                        <IVP-USERID>
+                            <xsl:value-of select="&quot;wcn00&quot;"/>
+                        </IVP-USERID>
+                        <IVP-SUBJ-SFX>
+                            <xsl:value-of select="&quot;b&quot;"/>
+                        </IVP-SUBJ-SFX>
+                    </WS-IVP-FIELDS>
+                </CopybookSchema>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse Copybook Data">
+        <pd:type>com.tibco.plugin.cobol.CCBParserActivity</pd:type>
+        <pd:resourceType>ae.activities.CCBParseActivity</pd:resourceType>
+        <pd:x>1056</pd:x>
+        <pd:y>105</pd:y>
+        <config>
+            <encoding>Cp1047</encoding>
+            <encodingDisp1>Cp1047</encodingDisp1>
+            <bigEndian>true</bigEndian>
+            <multipleRecords>false</multipleRecords>
+            <delimiter>None</delimiter>
+            <trimStrings>true</trimStrings>
+            <emptyNodes>false</emptyNodes>
+            <inputTypes>Bytes</inputTypes>
+            <allowIncompleteRead>false</allowIncompleteRead>
+            <allowIncompleteText>false</allowIncompleteText>
+            <ignoreInvalid>false</ignoreInvalid>
+            <ae.palette.cobolpalette.sharedProperties.copybook>/CopyBooks/MQPlusResponse.cpy</ae.palette.cobolpalette.sharedProperties.copybook>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <bytes>
+                    <xsl:value-of select="$WebSphere-MQ-Get-Activity/InteractionOutput/bytes"/>
+                </bytes>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="WebSphere MQ Get Activity">
+        <pd:type>com.tibco.plugin.bwmq.MqGetActivity</pd:type>
+        <pd:resourceType>plugin.bwmq.MqGetActivity</pd:resourceType>
+        <pd:x>846</pd:x>
+        <pd:y>88</pd:y>
+        <config>
+            <version>7.7.0</version>
+            <contentType>Binary</contentType>
+            <desttype>QUEUE</desttype>
+            <dynamic>false</dynamic>
+            <accesstype>MQOO_INPUT_AS_Q_DEF</accesstype>
+            <threadpool>1</threadpool>
+            <closeOptions>none</closeOptions>
+            <waitforever>false</waitforever>
+            <multiMessage>None</multiMessage>
+            <completeMessage>true</completeMessage>
+            <getOrdered>true</getOrdered>
+            <explicitSync>true</explicitSync>
+            <batchquantity>1</batchquantity>
+            <gmopropctl>PROPERTIES_AS_Q_DEF</gmopropctl>
+            <poolacitivity>false</poolacitivity>
+            <segmentation>None</segmentation>
+            <connectionresource>/Connections/WebSphere MQ Connection.mqcon</connectionresource>
+        </config>
+        <pd:inputBindings>
+            <InteractionInput>
+                <mqproperties>
+                    <xsl:if test="$WebSphere-MQ-Put-Activity/InteractionOutput/mqproperties/replyToQueueName">
+                        <destination>
+                            <xsl:value-of select="$WebSphere-MQ-Put-Activity/InteractionOutput/mqproperties/replyToQueueName"/>
+                        </destination>
+                    </xsl:if>
+                    <waitInterval>
+                        <xsl:value-of select="5000"/>
+                    </waitInterval>
+                </mqproperties>
+            </InteractionInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write File">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>524</pd:x>
+        <pd:y>256</pd:y>
+        <config>
+            <encoding>binary</encoding>
+            <compressFile>None</compressFile>
+        </config>
+        <pd:inputBindings>
+            <ns:WriteActivityInputBinaryClass>
+                <fileName>
+                    <xsl:value-of select="&quot;/home/wcn00/Downloads/IIHInput.bin&quot;"/>
+                </fileName>
+                <binaryContent>
+                    <xsl:value-of select="$Render-Copybook-Data/Output/bytes"/>
+                </binaryContent>
+            </ns:WriteActivityInputBinaryClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write-File-1">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>971</pd:x>
+        <pd:y>249</pd:y>
+        <config>
+            <encoding>binary</encoding>
+            <compressFile>None</compressFile>
+        </config>
+        <pd:inputBindings>
+            <ns:WriteActivityInputBinaryClass>
+                <fileName>
+                    <xsl:value-of select="&quot;/home/wcn00/Downloads/IIHOutput.bin&quot;"/>
+                </fileName>
+                <binaryContent>
+                    <xsl:value-of select="$WebSphere-MQ-Get-Activity/InteractionOutput/bytes"/>
+                </binaryContent>
+            </ns:WriteActivityInputBinaryClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Render Copybook Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>WebSphere MQ Put Activity</pd:from>
+        <pd:to>WebSphere MQ Get Activity</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse Copybook Data</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render Copybook Data</pd:from>
+        <pd:to>Write File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write File</pd:from>
+        <pd:to>WebSphere MQ Put Activity</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>WebSphere MQ Get Activity</pd:from>
+        <pd:to>Write-File-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write-File-1</pd:from>
+        <pd:to>Parse Copybook Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
